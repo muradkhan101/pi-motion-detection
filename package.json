@@ -1,0 +1,33 @@
+{
+  "name": "pi-motion-detection",
+  "version": "1.0.0",
+  "description": "Use a Raspberry Pi camera to detect motion and upload images to Google Drive",
+  "main": "index.js",
+  "dependencies": {
+    "chokidar": "^1.6.1",
+    "get-pixels": "^3.3.0",
+    "google-auth-library": "^0.10.0",
+    "googleapis": "^19.0.0",
+    "motion-detect": "^0.2.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muradkhan101/pi-motion-detection.git"
+  },
+  "keywords": [
+    "raspberrypi",
+    "motion",
+    "detect",
+    "googledrive"
+  ],
+  "author": "Murad Khan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/muradkhan101/pi-motion-detection/issues"
+  },
+  "homepage": "https://github.com/muradkhan101/pi-motion-detection#readme"
+}
