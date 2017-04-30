@@ -1,14 +1,12 @@
 var Motion = require('motion-detect').Motion;
 var google = require('googleapis');
-var googleAuth = require('google-auth-library');
-var readline = require('readline');
+var googleAuth = require('googleLogin.js');
 var chokidar = require('chokidar');
 var fs = require('fs');
 var ndarray = require('ndarray');
 var pixels = require('get-pixels');
-
 var motion = new Motion();
-var imgCounter = 0;
+
 var imgDir = process.cwd() + '/files/';
 var saveDir = process.cwd() + '/savedImages/'
 var refImg = undefined;
@@ -16,9 +14,6 @@ var refImgDir = undefined;
 var tempData;
 var tempDir;
 
-  fs.writeFile(TOKEN_PATH, JSON.stringify(token));
-  console.log('Token stored to ' + TOKEN_PATH);
-}
 
 // var watcher = chokidar.watch(imgDir);
 // watcher.on('add', (path) => {
@@ -51,12 +46,6 @@ function setup() {
     }
   });
 }
-
-
-function googleAuth() {
-
-}
-
 
 function flattenND(obj) {
   var arr = [];
@@ -92,7 +81,7 @@ function checkMotion(pixelData) {
 
 function uploadImage(img) {
   console.log('file');
-  var drive = google.drive({ version: 'v3', auth: oauth2Client });
+  var drive = google.drive({ version: 'v3', auth: googleAuth.oauth2Client });
   fs.readFile('client_secret.json', function processClientSecrets(err, content) {
     if (err) {
       console.log('Error loading client secret file: ' + err);
@@ -104,7 +93,7 @@ function uploadImage(img) {
         console.log('Error loading image:', err);
         return;
       }
-      authorize(JSON.parse(content), function(auth) {
+      googleAuth.authorize(JSON.parse(content), function(auth) {
         drive.files.create({
           auth: auth,
           resource: {
@@ -129,12 +118,10 @@ function handleImage(img) {
 function main(img) {
   getPixelData(img).then(checkMotion).then((result) => {
     if (result === true) {
-      uploadImage(img); //Make sync so you only delete after upload
-      // handleImage(img);
+      uploadImage(img);
     }
     else {
       refImg = tempData;
-      // handleImage(refImgDir);
       refImgDir = img;
     }
     console.log('uploaded');
