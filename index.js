@@ -2,12 +2,10 @@ var google = require('googleapis');
 var googleAuth = require('./js/googleLogin.js');
 var chokidar = require('chokidar');
 var fs = require('fs');
-// var ndarray = require('ndarray');
 var camera = require('./js/camera.js');
 var imageAnalysis = require('./js/imageAnalysis.js');
 
 var imgDir = './images/';
-// var saveDir = './savedImages/';
 var refImg = undefined;
 var refImgDir = undefined;
 var tempData;
@@ -25,8 +23,6 @@ function setup() {
         }
       )
     }))
-  // if (fs.existsSync(saveDir) === false)
-  //   fs.mkdir(saveDir);
   var watcher = chokidar.watch(imgDir);
   watcher.on('add', (path) => {
     if (!(path.indexOf('DS_Store') > 0)) {
@@ -48,6 +44,7 @@ function setup() {
 
 // Uploads file to Google Drive
 function uploadImage(img) {
+  console.log(img, 'from uploadImage');
   var drive = google.drive({version: 'v3', auth: googleAuth.oauth2Client});
   fs.readFile('client_secret.json', function processClientSecrets(err, content) {
     if (err) {
@@ -73,9 +70,9 @@ function uploadImage(img) {
           }
         });
       })
+      fs.unlinkSync(img);
     });
   });
-  fs.unlinkSync(img);
 }
 
 function main(img) {
@@ -86,7 +83,7 @@ function main(img) {
     tempData = imgData;
     imageAnalysis.checkMotion(imgData, refImg).then(result => {
       if (result === true) {
-        uploadImage(img);
+        uploadImage(tempDir);
       } else {
         fs.unlinkSync(refImgDir);
         refImg = tempData;

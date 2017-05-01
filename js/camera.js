@@ -26,7 +26,7 @@ function startTakingImages() {
         })
       }
     })
-  }, 5000);
+  }, 15000);
 }
 
 function getImgCount() {
