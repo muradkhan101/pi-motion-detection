@@ -1,6 +1,7 @@
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 var readline = require('readline');
+var fs = require('fs');
 
 var OAuth2 = google.auth.OAuth2;
 var oauth2Client;
